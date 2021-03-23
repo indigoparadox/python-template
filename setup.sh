@@ -126,6 +126,7 @@ if [ $DO_FLASK = 1 ]; then
       $TEMPLATE_FILES
       $PROJECT_NAME/__init__.py
       $PROJECT_NAME/routes.py
+      $PROJECT_NAME/templates/base.html.m4
       Dockerfile
       uwsgi.ini
       "
@@ -164,13 +165,14 @@ if [ -n "$PROJECT_NAME" ]; then
          "$PROJECT_DIR/$TEMPL_ITER.m4" > "$PROJECT_DIR/$TEMPL_OUT"
    done
    rm -rvf "$PROJECT_NAME/"*.m4
+   rm -rvf "$PROJECT_NAME/templates"*.m4
 fi
 
 if [ $DO_CLEAN = 1 ]; then
    rm -rf "$PROJECT_DIR/.git"
    find "$PROJECT_DIR" -name "*.m4" -exec rm {} \;
    git init "$PROJECT_DIR"
-   git add $TEMPLATE_FILES .gitignore LICENSE "$PROJECT_NAME/templates" "$PROJECT_NAME/static"
+   git add $TEMPLATE_FILES .gitignore LICENSE
    git commit -a -m "Initial revision based on template."
    rm "$0"
 fi
