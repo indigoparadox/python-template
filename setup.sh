@@ -116,7 +116,7 @@ PROJECT_UPPER=`echo "$PROJECT_NAME" | \
    tr '[a-z]' '[A-Z]'`
 
 TEMPLATE_FILES="
-   src/$PROJECT_NAME/__main__.py
+   $PROJECT_NAME/__main__.py
    setup.cfg
    MANIFEST.in
    "
@@ -124,8 +124,8 @@ TEMPLATE_FILES="
 if [ $DO_FLASK = 1 ]; then
    TEMPLATE_FILES="
       $TEMPLATE_FILES
-      src/$PROJECT_NAME/__init__.py
-      src/$PROJECT_NAME/routes.py
+      $PROJECT_NAME/__init__.py
+      $PROJECT_NAME/routes.py
       Dockerfile
       uwsgi.ini
       "
@@ -134,7 +134,7 @@ fi
 if [ $DO_SQLALCHEMY = 1 ]; then
    TEMPLATE_FILES="
       $TEMPLATE_FILES
-      src/$PROJECT_NAME/models.py
+      $PROJECT_NAME/models.py
       "
 fi
 
@@ -151,8 +151,8 @@ fi
 # Loop through the files list and replace occurences of "ghtmptmp" with the
 # project name in the file names and contents.
 if [ -n "$PROJECT_NAME" ]; then
-   rm -rvf "src/$PROJECT_NAME"
-   cp -vR "src/flask_module" "src/$PROJECT_NAME"
+   rm -rvf "$PROJECT_NAME"
+   cp -vR "flask_module" "$PROJECT_NAME"
    for TEMPL_ITER in $TEMPLATE_FILES; do
       TEMPL_OUT="`sed "s/ghtmptmp/$PROJECT_NAME/g" \
          <<< "$PROJECT_DIR/$TEMPL_ITER"`"
@@ -163,14 +163,14 @@ if [ -n "$PROJECT_NAME" ]; then
          $PROJECT_OPTS \
          "$PROJECT_DIR/$TEMPL_ITER.m4" > "$PROJECT_DIR/$TEMPL_OUT"
    done
-   rm -rvf "src/$PROJECT_NAME/"*.m4
+   rm -rvf "$PROJECT_NAME/"*.m4
 fi
 
 if [ $DO_CLEAN = 1 ]; then
    rm -rf "$PROJECT_DIR/.git"
    find "$PROJECT_DIR" -name "*.m4" -exec rm {} \;
    git init "$PROJECT_DIR"
-   git add $TEMPLATE_FILES .gitignore LICENSE src/static src/templates
+   git add $TEMPLATE_FILES .gitignore LICENSE "$PROJECT_NAME/templates" "$PROJECT_NAME/static"
    git commit -a -m "Initial revision based on template."
    rm "$0"
 fi
