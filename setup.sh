@@ -27,6 +27,10 @@ while (( "$#" )); do
          DO_JQUERY=1
          ;;
 
+      "wtforms")
+         DO_WTFORMS=1
+         ;;
+
       "gpl3")
          PROJECT_LICENSE="gpl3"
          ;;
@@ -67,11 +71,17 @@ if [ $DO_FLASK = 1 ]; then
    PROJECT_OPTS="$PROJECT_OPTS -D do_flask=enabled"
 fi
 
+if [ $DO_FLASK = 1] && [ $DO_WTFORMS = 1 ]; then
+   PROJECT_OPTS="$PROJECT_OPTS -D do_flask_wtforms=enabled"
+fi
+
 if [ $DO_NPM = 1 ]; then
    PROJECT_OPTS="$PROJECT_OPTS -D do_npm=enabled"
 fi
 
-if [ $DO_SQLALCHEMY = 1 ]; then
+if [ $DO_FLASK = 1 ] && [ $DO_SQLALCHEMY = 1 ]; then
+   PROJECT_OPTS="$PROJECT_OPTS -D do_flask_sqlalchemy=enabled"
+elif [ $DO_FLASK = 0 ] && [ $DO_SQLALCHEMY = 1 ]; then
    PROJECT_OPTS="$PROJECT_OPTS -D do_sqlalchemy=enabled"
 fi
 
@@ -82,6 +92,14 @@ if [ -z "$PROJECT_NAME" ]; then
    read PROJECT_NAME
    if [ -z "$PROJECT_NAME" ]; then
       exit 2
+   fi
+fi
+
+if [ -z "$PROJECT_DESC" ]; then
+   echo "Project description?"
+   read PROJECT_DESC
+   if [ -z "$PROJECT_DESC" ]; then
+      exit 4
    fi
 fi
 
@@ -97,24 +115,24 @@ PROJECT_UPPER=`echo "$PROJECT_NAME" | \
    tr '[a-z]' '[A-Z]'`
 
 TEMPLATE_FILES="
-   src/run.py
-   src/$PROJECT_NAME/__init__.py
+   src/$PROJECT_NAME/__main__.py
+   setup.cfg
+   MANIFEST.in
    "
 
 if [ $DO_FLASK = 1 ]; then
    TEMPLATE_FILES="
       $TEMPLATE_FILES
+      src/$PROJECT_NAME/__init__.py
       src/$PROJECT_NAME/routes.py
-      src/$PROJECT_NAME/config.py
       Dockerfile
-      requirements.txt
+      uwsgi.ini
       "
 fi
 
 if [ $DO_SQLALCHEMY = 1 ]; then
    TEMPLATE_FILES="
       $TEMPLATE_FILES
-      src/$PROJECT_NAME/database.py
       src/$PROJECT_NAME/models.py
       "
 fi
@@ -140,6 +158,7 @@ if [ -n "$PROJECT_NAME" ]; then
       m4 \
          -D ghtmptmp="$PROJECT_NAME" \
          -D GHTMPTMP="$PROJECT_UPPER" \
+         -D ghtmptmp_desc="$PROTECT_DESC" \
          $PROJECT_OPTS \
          "$PROJECT_DIR/$TEMPL_ITER.m4" > "$PROJECT_DIR/$TEMPL_OUT"
    done
