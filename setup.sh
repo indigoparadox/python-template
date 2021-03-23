@@ -8,6 +8,7 @@ DO_BOOTSTRAP=0
 DO_JQUERY=0
 DO_NPM=0
 DO_CLEAN=0
+DO_WTFORMS=0
 DO_SQLALCHEMY=0
 while (( "$#" )); do
    case "$1" in
@@ -71,7 +72,7 @@ if [ $DO_FLASK = 1 ]; then
    PROJECT_OPTS="$PROJECT_OPTS -D do_flask=enabled"
 fi
 
-if [ $DO_FLASK = 1] && [ $DO_WTFORMS = 1 ]; then
+if [ $DO_FLASK = 1 ] && [ $DO_WTFORMS = 1 ]; then
    PROJECT_OPTS="$PROJECT_OPTS -D do_flask_wtforms=enabled"
 fi
 
