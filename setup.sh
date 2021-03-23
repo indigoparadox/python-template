@@ -114,15 +114,22 @@ if [ -z "$PROJECT_LICENSE" ]; then
 fi
 
 PROJECT_UPPER=`echo "$PROJECT_NAME" | tr '[a-z]' '[A-Z]'`
-PROJECT_DASHES="$PROJECT_NAME" | tr ' ' '-'
-PROJECT_UNDERSCORES="$PROJECT_NAME" | tr ' ' '_'
+PROJECT_DASHES="$PROJECT_NAME" | tr '[A-Z]' '[a-z]' | tr ' ' '-'
+PROJECT_UNDERSCORES="$PROJECT_NAME" | tr '[A-Z]' '[a-z]' | tr ' ' '_'
 
 TEMPLATE_FILES="
    $PROJECT_UNDERSCORES/__main__.py
    .vscode/launch.json
    setup.cfg
    MANIFEST.in
+   README.md
    "
+
+if [ $DO_FLASK = 0 ]; then
+   TEMPLATE_FILES="
+      $TEMPLATE_FILES
+      tests/test_example.py"
+fi
 
 if [ $DO_FLASK = 1 ]; then
    TEMPLATE_FILES="
@@ -130,6 +137,7 @@ if [ $DO_FLASK = 1 ]; then
       $PROJECT_UNDERSCORES/__init__.py
       $PROJECT_UNDERSCORES/routes.py
       $PROJECT_UNDERSCORES/templates/base.html.m4
+      tests/test_flask_example.py"
       Dockerfile
       uwsgi.ini
       "
@@ -156,6 +164,7 @@ fi
 # project name in the file names and contents.
 if [ -n "$PROJECT_UNDERSCORES" ]; then
    rm -rvf "$PROJECT_UNDERSCORES"
+   rm README.md
    cp -vR "flask_module" "$PROJECT_UNDERSCORES"
    for TEMPL_ITER in $TEMPLATE_FILES; do
       TEMPL_OUT="`sed "s/ghtmptmp/$PROJECT_UNDERSCORES/g" \
@@ -170,6 +179,7 @@ if [ -n "$PROJECT_UNDERSCORES" ]; then
          $PROJECT_OPTS \
          "$PROJECT_DIR/$TEMPL_ITER.m4" > "$PROJECT_DIR/$TEMPL_OUT"
    done
+   rm -rvf "tests/"*.m4
    rm -rvf "$PROJECT_UNDERSCORES/"*.m4
    rm -rvf "$PROJECT_UNDERSCORES/templates"*.m4
 fi
