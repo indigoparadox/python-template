@@ -8,7 +8,7 @@
             "name": "Python: ghtmptmp",
             "type": "python",
             "request": "launch",
-            "module": "ghtmptmp",
+            "module": "ghtmp_underscores",
             "justMyCode": false
         },
     ]

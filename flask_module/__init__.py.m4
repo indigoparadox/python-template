@@ -8,6 +8,8 @@ changequote(`[', `]')dnl
 ifelse(do_flask_sqlalchemy, [enabled], [], [dnl])
 ifelse(do_flask_sqlalchemy, [enabled], [# Setup the database stuff.], [dnl])
 ifelse(do_flask_sqlalchemy, [enabled], [db = SQLAlchemy()], [dnl])
+ifelse(do_flask_wtforms, [enabled], [dnl])
+ifelse(do_flask_wtforms, [enabled], [csrf = CSRFProtect()], [dnl])
 changequote([`], ['])dnl
 
 def create_app( config=None ):
@@ -37,6 +39,8 @@ changequote({`}, {'})dnl
         app.config.from_object( config )
 ifelse(do_flask_sqlalchemy, `enabled', `', `dnl')
 ifelse(do_flask_sqlalchemy, `enabled', `    db.init_app( app )', `dnl')
+ifelse(do_flask_wtforms, `enabled', `', `dnl')
+ifelse(do_flask_wtforms, `enabled', `    csrf.init_app( app )', `dnl')
 
     with app.app_context():
         from . import routes

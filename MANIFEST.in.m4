@@ -1,2 +1,2 @@
-ifelse(do_flask, `enabled', `include ghtmptmp/templates/*', `dnl')
-ifelse(do_flask, `enabled', `include ghtmptmp/static/*', `dnl')
+ifelse(do_flask, `enabled', `include ghtmp_underscores/templates/*', `dnl')
+ifelse(do_flask, `enabled', `include ghtmp_underscores/static/*', `dnl')

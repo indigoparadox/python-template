@@ -89,11 +89,12 @@ fi
 echo "$PROJECT_DIR"
 
 if [ -z "$PROJECT_NAME" ]; then
-   echo "Project name?"
+   echo "Project name? (Spaces are OK.)"
    read PROJECT_NAME
    if [ -z "$PROJECT_NAME" ]; then
       exit 2
    fi
+
 fi
 
 if [ -z "$PROJECT_DESC" ]; then
@@ -112,11 +113,13 @@ if [ -z "$PROJECT_LICENSE" ]; then
    fi
 fi
 
-PROJECT_UPPER=`echo "$PROJECT_NAME" | \
-   tr '[a-z]' '[A-Z]'`
+PROJECT_UPPER=`echo "$PROJECT_NAME" | tr '[a-z]' '[A-Z]'`
+PROJECT_DASHES="$PROJECT_NAME" | tr ' ' '-'
+PROJECT_UNDERSCORES="$PROJECT_NAME" | tr ' ' '_'
 
 TEMPLATE_FILES="
-   $PROJECT_NAME/__main__.py
+   $PROJECT_UNDERSCORES/__main__.py
+   .vscode/launch.json
    setup.cfg
    MANIFEST.in
    "
@@ -124,9 +127,9 @@ TEMPLATE_FILES="
 if [ $DO_FLASK = 1 ]; then
    TEMPLATE_FILES="
       $TEMPLATE_FILES
-      $PROJECT_NAME/__init__.py
-      $PROJECT_NAME/routes.py
-      $PROJECT_NAME/templates/base.html.m4
+      $PROJECT_UNDERSCORES/__init__.py
+      $PROJECT_UNDERSCORES/routes.py
+      $PROJECT_UNDERSCORES/templates/base.html.m4
       Dockerfile
       uwsgi.ini
       "
@@ -135,7 +138,7 @@ fi
 if [ $DO_SQLALCHEMY = 1 ]; then
    TEMPLATE_FILES="
       $TEMPLATE_FILES
-      $PROJECT_NAME/models.py
+      $PROJECT_UNDERSCORES/models.py
       "
 fi
 
@@ -151,28 +154,31 @@ fi
 
 # Loop through the files list and replace occurences of "ghtmptmp" with the
 # project name in the file names and contents.
-if [ -n "$PROJECT_NAME" ]; then
-   rm -rvf "$PROJECT_NAME"
-   cp -vR "flask_module" "$PROJECT_NAME"
+if [ -n "$PROJECT_UNDERSCORES" ]; then
+   rm -rvf "$PROJECT_UNDERSCORES"
+   cp -vR "flask_module" "$PROJECT_UNDERSCORES"
    for TEMPL_ITER in $TEMPLATE_FILES; do
-      TEMPL_OUT="`sed "s/ghtmptmp/$PROJECT_NAME/g" \
+      TEMPL_OUT="`sed "s/ghtmptmp/$PROJECT_UNDERSCORES/g" \
          <<< "$PROJECT_DIR/$TEMPL_ITER"`"
       m4 \
          -D ghtmptmp="$PROJECT_NAME" \
          -D GHTMPTMP="$PROJECT_UPPER" \
-         -D ghtmptmp_desc="$PROTECT_DESC" \
+         -D ghtmp_dashes="$PROJECT_DASHES" \
+         -D ghtmp_underscores="$PROJECT_UNDERSCORES" \
+         -D ghtmp_desc="$PROTECT_DESC" \
+         -D ghtmp_license="$PROJECT_LICENSE" \
          $PROJECT_OPTS \
          "$PROJECT_DIR/$TEMPL_ITER.m4" > "$PROJECT_DIR/$TEMPL_OUT"
    done
-   rm -rvf "$PROJECT_NAME/"*.m4
-   rm -rvf "$PROJECT_NAME/templates"*.m4
+   rm -rvf "$PROJECT_UNDERSCORES/"*.m4
+   rm -rvf "$PROJECT_UNDERSCORES/templates"*.m4
 fi
 
 if [ $DO_CLEAN = 1 ]; then
    rm -rf "$PROJECT_DIR/.git"
    find "$PROJECT_DIR" -name "*.m4" -exec rm {} \;
    git init "$PROJECT_DIR"
-   git add $TEMPLATE_FILES .gitignore LICENSE
+   git add $TEMPLATE_FILES .gitignore LICENSE pyproject.toml setup.py requirements.txt "$PROJECT_UNDERSCORES/static/.keep .vscode/settings.json"
    git commit -a -m "Initial revision based on template."
    rm "$0"
 fi

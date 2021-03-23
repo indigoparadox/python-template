@@ -8,5 +8,5 @@ define(`roota', `$1_root')
 main_section = Blueprint( 'main', __name__ )
 
 @main_section.route( '/' )
-def roota(ghtmptmp)():
+def roota(ghtmp_underscores)():
     return render_template( 'root.html' )

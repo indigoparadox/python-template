@@ -10,9 +10,9 @@ define(`is_defined', `ifelse($1()$1, `$1()$1', ``'', ``enabled'')')
 divert(0)
 dnl
 {
-   "name": "template",
+   "name": "ghtmptmp",
    "version": "0.0.0",
-   "description": "template",
+   "description": "ghtmp_desc",
    "dependencies": {
 ifelse(do_jquery, `enabled', `jquery_deps', `dnl')
 ifelse(is_defined(`do_jquery')is_defined(`do_bootstrap'), `enabledenabled', `,', `dnl')

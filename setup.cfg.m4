@@ -1,16 +1,17 @@
 [metadata]
-name = ghtmptmp-indigoparadox
+name = ghtmp_dashes-indigoparadox
 version = v0.0.0.1
-description = ghtmptmp_desc
+description = ghtmp_desc
 long_description = file: README.md
 long_description_content_type = text/markdown
-url = https://github.com/indigoparadox/ghtmptmp
+url = https://github.com/indigoparadox/ghtmp_dashes
 protect_urls =
-   Bug Tracker = https://github.com/indigoparadox/ghtmptmp/issues
+   Bug Tracker = https://github.com/indigoparadox/ghtmp_dashes/issues
 classifiers =
    Programming Language :: Python :: 3
    Development Status :: 4 - Beta
-   License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+ifelse(ghtmp_license, `gpl3', `   License :: OSI Approved :: GNU General Public License v3 (GPLv3)', `dnl')
+ifelse(ghtmp_license, `lgpl3', `   License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)', `dnl')
    Operating System :: OS Independent
 
 [options]
@@ -35,4 +36,4 @@ ifelse(do_flask_wtforms, `enabled', `   WTForms', `dnl')
 
 [options.entry_points]
 console_scripts =
-   ghtmptmp = ghtmptmp.__main__:main
+   ghtmp_underscores = ghtmp_underscores.__main__:main

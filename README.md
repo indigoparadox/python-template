@@ -6,6 +6,8 @@
  * flask
  * sqlalchemy
  * bootstrap
+ * wtforms
+ * jquery
 
 ### Licenses
 
