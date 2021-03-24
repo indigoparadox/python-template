@@ -3,27 +3,19 @@ define(`roota', `$1_root')dnl
 <html>
 <head>
 <title>{{ title }}</title>
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.css" />
+changequote(`^', `$')dnl
+ifelse(do_bootstrap, ^enabled$, ^<link rel="stylesheet" type="text/css" href="{{ url_for( 'static', filename='bootstrap.min.css' ) }}" />$, ^dnl$)
+changequote(^`$, ^'$)dnl
 <script type="text/javascript">var flaskRoot = "{{ url_for( 'main.roota(ghtmp_underscores)' ) }}";</script>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script src="{{ url_for( 'static', filename='sidebar.js' ) }}"></script>
-<link rel="stylesheet" href="{{ url_for( 'static', filename='style.css' ) }}" />
+changequote(`^', `$')dnl
+ifelse(do_jquery, ^enabled$, ^<script src="{{ url_for( 'static', filename='jquery.min.js' ) }}" crossorigin="anonymous"></script>$, ^dnl$)
+ifelse(do_bootstrap, ^enabled$, ^<script src="{{ url_for( 'static', filename='popper.min.js' }}" crossorigin="anonymous"></script>$, ^dnl$)
+ifelse(do_bootstrap, ^enabled$, ^<script src="{{ url_for( 'static', filename='bootstrap.min.js' ) }}" crossorigin="anonymous"></script>$, ^dnl$)
+changequote(^`$, ^'$)dnl
+<!-- <link rel="stylesheet" href="{{ url_for( 'static', filename='style.css' ) }}" /> -->
 {% block scripts %}{% endblock %}
 </head>
 <body class="h-100 bg-dark">
-
-{% if not no_sidebar %}
-<div id="sidebar" class="sidebar h-100 bg-secondary">
-<a id="sidebar-toggle" href="#"></a>
-<div id="sidebar-inner">
-{% block sidebar %}{% endblock %}
-</div>
-</div>
-
-<div id="main">
-{% endif %}{# /no_sidebar #}
 
 <div class="container">
 
@@ -44,10 +36,6 @@ define(`roota', `$1_root')dnl
 {% block content %}{% endblock %}
 
 </div> <!-- /container -->
-
-{% if not no_sidebar %}
-</div> <!-- /main -->
-{% endif %}{# /no_sidebar #}
 
 </body>
 </html>

@@ -11,7 +11,7 @@ dnl
 module.exports = function( grunt ) {
 
    var env = grunt.option( 'env' ) || 'std';
-   var static_dir = 'src/static/';
+   var static_dir = 'ghtmp_underscores/static/';
 
    if( 'docker' == env ) {
       static_dir = 'app/static/';
@@ -22,8 +22,8 @@ module.exports = function( grunt ) {
          main: {
             files: [
                {expand: true, src: [
-                  ifelse(do_jquery, `enabled', `files_jquery', `')
-                  ifelse(do_bootstrap, `enabled', `files_bootstrap', `')
+                  ifelse(do_jquery, `enabled', `files_jquery', `dnl')
+                  ifelse(do_bootstrap, `enabled', `files_bootstrap', `dnl')
                ],
                dest: static_dir, flatten: true},
             ]
