@@ -10,7 +10,7 @@ define(`is_defined', `ifelse($1()$1, `$1()$1', ``'', ``enabled'')')
 divert(0)
 dnl
 {
-   "name": "ghtmptmp",
+   "name": "ghtmp_underscores",
    "version": "0.0.0",
    "description": "ghtmp_desc",
    "dependencies": {

@@ -145,6 +145,8 @@ if [ $DO_FLASK = 1 ]; then
       $TEMPLATE_FILES
       $PROJECT_UNDERSCORES/__init__.py
       $PROJECT_UNDERSCORES/routes.py
+      $PROJECT_UNDERSCORES/templates/.keep
+      $PROJECT_UNDERSCORES/static/.keep
       $PROJECT_UNDERSCORES/templates/base.html.j2
       $PROJECT_UNDERSCORES/templates/root.html.j2
       tests/test_flask_example.py
@@ -191,7 +193,7 @@ if [ -n "$PROJECT_UNDERSCORES" ]; then
          -D GHTMPTMP="$PROJECT_UPPER" \
          -D ghtmp_dashes="$PROJECT_DASHES" \
          -D ghtmp_underscores="$PROJECT_UNDERSCORES" \
-         -D ghtmp_desc="$PROTECT_DESC" \
+         -D ghtmp_desc="$PROJECT_DESC" \
          -D ghtmp_license="$PROJECT_LICENSE" \
          $PROJECT_OPTS \
          "$PROJECT_DIR/$TEMPL_ITER.m4" > "$PROJECT_DIR/$TEMPL_OUT"
@@ -199,13 +201,14 @@ if [ -n "$PROJECT_UNDERSCORES" ]; then
    rm -rvf "tests/"*.m4
    rm -rvf "$PROJECT_UNDERSCORES/"*.m4
    rm -rvf "$PROJECT_UNDERSCORES/templates"*.m4
+   rm -rvf "flask_module"
 fi
 
 if [ $DO_CLEAN = 1 ]; then
    rm -rf "$PROJECT_DIR/.git"
    find "$PROJECT_DIR" -name "*.m4" -exec rm {} \;
    git init "$PROJECT_DIR"
-   git add $TEMPLATE_FILES .gitignore LICENSE pyproject.toml setup.py requirements.txt "$PROJECT_UNDERSCORES/static/.keep" .vscode/settings.json instance/.keep
+   git add $TEMPLATE_FILES .gitignore LICENSE pyproject.toml setup.py requirements.txt .vscode/settings.json
    git remote add origin "https://github.com/${GIT_USER}/${PROJECT_DASHES}"
    git commit -a -m "Initial revision based on template."
    rm "$0"
