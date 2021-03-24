@@ -7,5 +7,6 @@ __pycache__
 node_modules
 *.min.js
 *.min.css
-src/instance/*
-!src/instance/.keep
+*.egg-info
+instance/*
+!instance/.keep
