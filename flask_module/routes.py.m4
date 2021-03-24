@@ -2,7 +2,7 @@
 from flask import \
    Blueprint, \
    render_template, \
-   request, 
+   request, \ 
    current_app, \
    flash, \
    abort, \
