@@ -9,6 +9,7 @@ DO_JQUERY=0
 DO_NPM=0
 DO_CLEAN=0
 DO_WTFORMS=0
+DO_DOCKER=0
 DO_SQLALCHEMY=0
 while (( "$#" )); do
    case "$1" in
@@ -30,6 +31,10 @@ while (( "$#" )); do
 
       "wtforms")
          DO_WTFORMS=1
+         ;;
+
+      "docker")
+         DO_DOCKER=1
          ;;
 
       "gpl3")
@@ -88,7 +93,9 @@ elif [ $DO_FLASK = 0 ] && [ $DO_SQLALCHEMY = 1 ]; then
    PROJECT_OPTS="$PROJECT_OPTS -D do_sqlalchemy=enabled"
 fi
 
-echo "$PROJECT_DIR"
+if [ $DO_DOCKER = 1 ]; then
+   PROJECT_OPTS="$PROJECT_OPTS -D do_docker=enabled"
+fi
 
 if [ -z "$PROJECT_NAME" ]; then
    echo "Project name? (Spaces are OK.)"
@@ -141,8 +148,15 @@ if [ $DO_FLASK = 1 ]; then
       $PROJECT_UNDERSCORES/templates/base.html.j2
       $PROJECT_UNDERSCORES/templates/root.html.j2
       tests/test_flask_example.py
-      Dockerfile
       uwsgi.ini
+      "
+fi
+
+if [ $DO_DOCKER = 1 ]; then
+   TEMPLATE_FILES="
+      $TEMPLATE_FILES
+      Dockerfile
+      .dockerignore
       "
 fi
 
