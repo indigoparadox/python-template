@@ -2,7 +2,7 @@
 from flask import \
    Blueprint, \
    render_template, \
-   request, \ 
+   request, \
    current_app, \
    flash, \
    abort, \
@@ -18,4 +18,4 @@ main_section = Blueprint( 'main', __name__ )
 
 @main_section.route( '/' )
 def roota(ghtmp_underscores)():
-    return render_template( 'root.html' )
+    return render_template( 'root.html.j2' )
