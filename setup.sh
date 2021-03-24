@@ -215,5 +215,7 @@ if [ $DO_CLEAN = 1 ]; then
    rm "$0"
 fi
 
-#rm $0
+if [ $DO_NPM = 1 ]; then
+   echo "Use npm install and grunt to prepare local static files."
+fi
 
