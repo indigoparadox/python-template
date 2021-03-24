@@ -45,12 +45,14 @@ while (( "$#" )); do
          ;;
 
       *)
-         if [ -z "$PROJECT_NAME" ]; then
-            PROJECT_NAME="$1"
-         else
-            echo "Unsupported options: $1"
-            exit 16
-         fi
+         #if [ -z "$PROJECT_NAME" ]; then
+         #   PROJECT_NAME="$1"
+         #elif [ -z "$PROJECT_DESC" ]; then
+         #   PROJECT_DESC="$1"
+         #else
+         echo "Unsupported options: $1"
+         exit 16
+         #fi
          ;;
    esac
    shift
@@ -114,8 +116,8 @@ if [ -z "$PROJECT_LICENSE" ]; then
 fi
 
 PROJECT_UPPER=`echo "$PROJECT_NAME" | tr '[a-z]' '[A-Z]'`
-PROJECT_DASHES="$PROJECT_NAME" | tr '[A-Z]' '[a-z]' | tr ' ' '-'
-PROJECT_UNDERSCORES="$PROJECT_NAME" | tr '[A-Z]' '[a-z]' | tr ' ' '_'
+PROJECT_DASHES=`echo "$PROJECT_NAME" | tr '[A-Z]' '[a-z]' | tr ' ' '-'`
+PROJECT_UNDERSCORES=echo "$PROJECT_NAME" | tr '[A-Z]' '[a-z]' | tr ' ' '_'`
 
 TEMPLATE_FILES="
    $PROJECT_UNDERSCORES/__main__.py
