@@ -150,7 +150,7 @@ if [ $DO_FLASK = 1 ]; then
       $PROJECT_UNDERSCORES/templates/base.html.j2
       $PROJECT_UNDERSCORES/templates/root.html.j2
       tests/test_flask_example.py
-      instance/.keep.m4
+      instance/.keep
       uwsgi.ini
       "
 fi
