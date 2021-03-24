@@ -138,7 +138,8 @@ if [ $DO_FLASK = 1 ]; then
       $TEMPLATE_FILES
       $PROJECT_UNDERSCORES/__init__.py
       $PROJECT_UNDERSCORES/routes.py
-      $PROJECT_UNDERSCORES/templates/base.html.m4
+      $PROJECT_UNDERSCORES/templates/base.html
+      $PROJECT_UNDERSCORES/templates/root.html
       tests/test_flask_example.py
       Dockerfile
       uwsgi.ini
@@ -190,7 +191,8 @@ if [ $DO_CLEAN = 1 ]; then
    rm -rf "$PROJECT_DIR/.git"
    find "$PROJECT_DIR" -name "*.m4" -exec rm {} \;
    git init "$PROJECT_DIR"
-   git add $TEMPLATE_FILES .gitignore LICENSE pyproject.toml setup.py requirements.txt "$PROJECT_UNDERSCORES/static/.keep .vscode/settings.json"
+   git add $TEMPLATE_FILES .gitignore LICENSE pyproject.toml setup.py requirements.txt "$PROJECT_UNDERSCORES/static/.keep .vscode/settings.json instance/.keep"
+   git remote add origin "https://github.com/${GIT_USER}/${PROJECT_DASHES}"
    git commit -a -m "Initial revision based on template."
    rm "$0"
 fi
