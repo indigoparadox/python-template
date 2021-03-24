@@ -117,7 +117,7 @@ fi
 
 PROJECT_UPPER=`echo "$PROJECT_NAME" | tr '[a-z]' '[A-Z]'`
 PROJECT_DASHES=`echo "$PROJECT_NAME" | tr '[A-Z]' '[a-z]' | tr ' ' '-'`
-PROJECT_UNDERSCORES=echo "$PROJECT_NAME" | tr '[A-Z]' '[a-z]' | tr ' ' '_'`
+PROJECT_UNDERSCORES=`echo "$PROJECT_NAME" | tr '[A-Z]' '[a-z]' | tr ' ' '_'`
 
 TEMPLATE_FILES="
    $PROJECT_UNDERSCORES/__main__.py
