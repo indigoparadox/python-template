@@ -137,7 +137,7 @@ if [ $DO_FLASK = 1 ]; then
       $PROJECT_UNDERSCORES/__init__.py
       $PROJECT_UNDERSCORES/routes.py
       $PROJECT_UNDERSCORES/templates/base.html.m4
-      tests/test_flask_example.py"
+      tests/test_flask_example.py
       Dockerfile
       uwsgi.ini
       "
