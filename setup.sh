@@ -206,7 +206,7 @@ if [ -n "$PROJECT_UNDERSCORES" ]; then
 fi
 
 if [ $DO_CLEAN = 1 ]; then
-   rm -rf "$PROJECT_DIR/.git"
+   #rm -rf "$PROJECT_DIR/.git"
    find "$PROJECT_DIR" -name "*.m4" -exec rm {} \;
    git init "$PROJECT_DIR"
    git add $TEMPLATE_FILES .gitignore LICENSE pyproject.toml setup.py requirements.txt .vscode/settings.json
