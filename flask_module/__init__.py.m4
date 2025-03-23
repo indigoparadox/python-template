@@ -49,3 +49,5 @@ ifelse(do_flask_wtforms, `enabled', `    csrf.init_app( app )', `dnl')
 
         return app
 
+ifelse(do_flask, `enabled', `app = create_app()', `dnl')
+ifelse(do_flask, `enabled', `', `dnl')
