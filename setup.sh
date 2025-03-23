@@ -7,7 +7,7 @@ if [ -z "$TEMPLATE_GIT_URL" ]; then
 fi
 
 PROJECT_DIR="$(dirname $0)"
-PROJECT_OPTS="-D ghtmp_profile=$TEMPLATE_GIT_URL"
+PROJECT_OPTS=""
 LICENSE_PATH="$PROJECT_DIR/LICENSE"
 DO_FLASK=0
 DO_BOOTSTRAP=0
@@ -216,26 +216,35 @@ if [ -n "$PROJECT_UNDERSCORES" ]; then
          -D ghtmp_underscores="$PROJECT_UNDERSCORES" \
          -D ghtmp_desc="$PROJECT_DESC" \
          -D ghtmp_license="$PROJECT_LICENSE" \
+         -D ghtmp_profile="$TEMPLATE_GIT_URL" \
          $PROJECT_OPTS \
          "$PROJECT_DIR/$TEMPL_ITER.m4" > "$PROJECT_DIR/$TEMPL_OUT"
    done
-   rm -rvf "tests/"*.m4
-   rm -rvf "$PROJECT_UNDERSCORES/"*.m4
-   rm -rvf "$PROJECT_UNDERSCORES/templates"*.m4
-   rm -rvf "flask_module"
 fi
 
 if [ $DO_CLEAN = 1 ]; then
+   git rm -rvf ".vscode/"*.m4
+   git rm -rvf ".dockerignore/"*.m4
+   git rm -rvf "*.m4"
+   git rm -rvf "tests/"*.m4
+   git rm -rvf "$PROJECT_UNDERSCORES/"*.m4
+   git rm -rvf "$PROJECT_UNDERSCORES/templates/"*.m4
+   git rm -rvf "flask_module"
    #rm -rf "$PROJECT_DIR/.git"
-   find "$PROJECT_DIR" -name "*.m4" -exec rm {} \;
-   git init "$PROJECT_DIR"
-   git add $TEMPLATE_FILES .gitignore LICENSE pyproject.toml setup.py requirements.txt .vscode/settings.json
-   git remote add origin "https://github.com/${GIT_USER}/${PROJECT_DASHES}"
-   git commit -a -m "Initial revision based on template."
-   rm "$0"
+   #git init "$PROJECT_DIR"
+   #git remote add origin "https://github.com/${GIT_USER}/${PROJECT_DASHES}"
+   git rm "$0"
 fi
 
-if [ $DO_NPM = 1 ]; then
+git add $TEMPLATE_FILES .gitignore LICENSE pyproject.toml setup.py requirements.txt .vscode/settings.json
+if [ $DO_FLASK -eq 1 ]; then
+   git add "$PROJECT_UNDERSCORES/static/.keep"
+   git add "instance/.keep"
+fi
+
+git commit -a -m "Initial revision based on template."
+
+if [ $DO_NPM -eq 1 ]; then
    echo "Use npm install and grunt to prepare local static files."
 fi
 
