@@ -38,7 +38,7 @@ ifelse(do_flask_sqlalchemy, `enabled', `   pymysql', `dnl')
 ifelse(do_flask_sqlalchemy, `enabled', `   psycopg2-binary', `dnl')
 ifelse(do_flask_wtforms, `enabled', `   Flask-WTF', `dnl')
 ifelse(do_flask_wtforms, `enabled', `   WTForms', `dnl')
-
-[options.entry_points]
-console_scripts =
-   ghtmp_underscores = ghtmp_underscores.__main__:main
+ifelse(do_console, `enabled', `', `dnl')
+ifelse(do_console, `enabled', `[options.entry_points]', `dnl')
+ifelse(do_console, `enabled', `[options.console_scripts =', `dnl')
+ifelse(do_console, `enabled', `[options.   ghtmp_underscores = ghtmp_underscores.__main__:main', `dnl')

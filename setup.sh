@@ -11,10 +11,15 @@ DO_CLEAN=0
 DO_WTFORMS=0
 DO_DOCKER=0
 DO_SQLALCHEMY=0
+DO_CONSOLE=0
 while (( "$#" )); do
    case "$1" in
       "flask")
          DO_FLASK=1
+         ;;
+
+      "console")
+         DO_CONSOLE=1
          ;;
 
       "sqlalchemy")
@@ -75,6 +80,10 @@ if [ $DO_JQUERY = 1 ]; then
    DO_NPM=1
 fi
 
+if [ $DO_CONSOLE = 1 ]; then
+   PROJECT_OPTS="$PROJECT_OPTS -D do_console=enabled"
+fi
+
 if [ $DO_FLASK = 1 ]; then
    PROJECT_OPTS="$PROJECT_OPTS -D do_flask=enabled"
 fi
@@ -85,6 +94,11 @@ fi
 
 if [ $DO_NPM = 1 ]; then
    PROJECT_OPTS="$PROJECT_OPTS -D do_npm=enabled"
+fi
+
+if [ $DO_FLASK = 1 ] && [ $DO_SQLALCHEMY = 1 ]; then
+   2>&1 echo "flask and console are mutually exclusive!"
+   exit 1
 fi
 
 if [ $DO_FLASK = 1 ] && [ $DO_SQLALCHEMY = 1 ]; then
