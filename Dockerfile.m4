@@ -1,26 +1,44 @@
-dnl
-divert(-1)
-define(`js_deps', `# Setup Javascript dependencies.
-RUN apk add nodejs
-RUN npm install -g grunt-cli
-COPY package.json .
-COPY package-lock.json .
-COPY Gruntfile.js .
-RUN npm install
-RUN grunt --env=docker')
-divert(0)
-dnl
-FROM tiangolo/uwsgi-nginx:python3.7-alpine3.7
+
+FROM python:3.11-alpine
+
+WORKDIR /code
+
+RUN apk add --no-cache --virtual .build-deps \
+	gcc \
+	libc-dev \
+	linux-headers \
+	python3-dev \
+;
+RUN apk add --no-cache --virtual .rt-deps \
+   curl \
+   python3 \
+ifelse(do_npm, `enabled', `	nodejs \', `dnl')
+ifelse(do_npm, `enabled', `	nodejs \', `dnl')
+ifelse(do_npm, `enabled', `	npm \', `dnl')
+;
 
 # Copy app files.
-COPY src/static /app/static
-COPY src/templates /app/templates
-COPY src/*.py /app/
-COPY src/uwsgi.ini /app/
+COPY ./ghtmp_underscores /code/ghtmp_underscores
+COPY ./setup.cfg /code
+COPY ./setup.py /code
+COPY ./README.md /code
+COPY ./MANIFEST.in /code
+COPY ./pyproject.toml /code
+COPY ./requirements.txt /code
+ifelse(do_npm, `enabled', `COPY ./package.json /code', `dnl')
+ifelse(do_npm, `enabled', `COPY ./package-lock.json /code', `dnl')
+ifelse(do_npm, `enabled', `COPY ./Gruntfile.js /code', `dnl')
 
 # Setup Python dependencies.
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+ifelse(do_flask, `enabled', `RUN pip install --no-cache-dir --upgrade gunicorn', `dnl')
 
-ifelse(do_npm, `enabled', `js_deps', `')
+ifelse(do_npm, `enabled', `RUN npm install --global grunt'', `dnl')
+ifelse(do_npm, `enabled', `RURUN npm install', `dnl')
+ifelse(do_npm, `enabled', `RURUN grunt', `dnl')
+ifelse(do_npm, `enabled', `', `dnl')
+# Cleanup build env.
+RUN apk del .build-deps
 
+ifelse(do_flask, `enabled', `CMD ["gunicorn", "--bind", "0.0.0.0:80", "portato:app"]', `dnl')
+ifelse(do_flask, `enabled', `', `dnl')
