@@ -4,9 +4,9 @@ version = v0.0.0.1
 description = ghtmp_desc
 long_description = file: README.md
 long_description_content_type = text/markdown
-url = https://github.com/indigoparadox/ghtmp_dashes
+url = ghtmp_profile/ghtmp_dashes
 protect_urls =
-   Bug Tracker = https://github.com/indigoparadox/ghtmp_dashes/issues
+   Bug Tracker = ghtmp_profile/ghtmp_dashes/issues
 classifiers =
    Programming Language :: Python :: 3
    Development Status :: 4 - Beta

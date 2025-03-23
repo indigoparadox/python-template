@@ -1,7 +1,13 @@
 #!/bin/bash
 
+if [ -z "$TEMPLATE_GIT_URL" ]; then
+   2>&1 echo "\$TEMPLATE_GIT_URL must be set to your public git profile!"
+   2>&1 echo "(e.g. https://codeber.org/exampleuser"
+   exit 1
+fi
+
 PROJECT_DIR="$(dirname $0)"
-PROJECT_OPTS=""
+PROJECT_OPTS="-D ghtmp_profile=$TEMPLATE_GIT_URL"
 LICENSE_PATH="$PROJECT_DIR/LICENSE"
 DO_FLASK=0
 DO_BOOTSTRAP=0
