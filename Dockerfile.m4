@@ -3,11 +3,16 @@ FROM python:3.11-alpine
 
 WORKDIR /code
 
+# Include build deps in case requirements.txt needs them.
 RUN apk add --no-cache --virtual .build-deps \
 	gcc \
 	libc-dev \
 	linux-headers \
 	python3-dev \
+ifelse(do_sqlalchemy, `enabled', `	mariadb-dev \', `dnl')
+ifelse(do_sqlalchemy, `enabled', `	postgresql-dev \', `dnl')
+ifelse(do_flask_sqlalchemy, `enabled', `	mariadb-dev \', `dnl')
+ifelse(do_flask_sqlalchemy, `enabled', `	postgresql-dev \', `dnl')
 ;
 RUN apk add --no-cache --virtual .rt-deps \
    curl \
@@ -15,6 +20,10 @@ RUN apk add --no-cache --virtual .rt-deps \
 ifelse(do_npm, `enabled', `	nodejs \', `dnl')
 ifelse(do_npm, `enabled', `	nodejs \', `dnl')
 ifelse(do_npm, `enabled', `	npm \', `dnl')
+ifelse(do_sqlalchemy, `enabled', `	mariadb-connector-c \', `dnl')
+ifelse(do_sqlalchemy, `enabled', `	libpq \', `dnl')
+ifelse(do_flask_sqlalchemy, `enabled', `	mariadb-connector-c \', `dnl')
+ifelse(do_flask_sqlalchemy, `enabled', `	libpq \', `dnl')
 ;
 
 # Copy app files.
