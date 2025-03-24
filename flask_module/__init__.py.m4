@@ -44,6 +44,8 @@ ifelse(do_flask_wtforms, `enabled', `    csrf.init_app( app )', `dnl')
 
     with app.app_context():
         from . import routes
+ifelse(do_flask_sqlalchemy, `enabled', `', `dnl')
+ifelse(do_flask_sqlalchemy, `enabled', `        db.create_all()', `dnl')
 
         app.register_blueprint( routes.main_section )
 
