@@ -17,15 +17,10 @@ DO_CLEAN=0
 DO_WTFORMS=0
 DO_DOCKER=0
 DO_SQLALCHEMY=0
-DO_CONSOLE=0
 while (( "$#" )); do
    case "$1" in
       "flask")
          DO_FLASK=1
-         ;;
-
-      "console")
-         DO_CONSOLE=1
          ;;
 
       "sqlalchemy")
@@ -84,10 +79,6 @@ if [ $DO_JQUERY = 1 ]; then
    PROJECT_OPTS="$PROJECT_OPTS -D do_jquery=enabled"
    DO_FLASK=1
    DO_NPM=1
-fi
-
-if [ $DO_CONSOLE = 1 ]; then
-   PROJECT_OPTS="$PROJECT_OPTS -D do_console=enabled"
 fi
 
 if [ $DO_FLASK = 1 ]; then
@@ -165,7 +156,6 @@ if [ $DO_FLASK = 1 ]; then
       $TEMPLATE_FILES
       $PROJECT_UNDERSCORES/__init__.py
       $PROJECT_UNDERSCORES/routes.py
-      $PROJECT_UNDERSCORES/templates/.keep
       $PROJECT_UNDERSCORES/static/.keep
       $PROJECT_UNDERSCORES/templates/base.html.j2
       $PROJECT_UNDERSCORES/templates/root.html.j2
@@ -223,20 +213,26 @@ if [ -n "$PROJECT_UNDERSCORES" ]; then
 fi
 
 if [ $DO_CLEAN = 1 ]; then
-   git rm -rvf ".vscode/"*.m4
-   git rm -rvf ".dockerignore/"*.m4
-   git rm -rvf "*.m4"
-   git rm -rvf "tests/"*.m4
-   git rm -rvf "$PROJECT_UNDERSCORES/"*.m4
-   git rm -rvf "$PROJECT_UNDERSCORES/templates/"*.m4
-   git rm -rvf "flask_module"
+   git rm ".vscode/"*.m4
+   git rm ".dockerignore/"*.m4
+   git rm "*.m4"
+   git rm "tests/"*.m4
+   rm -rvf "$PROJECT_UNDERSCORES/"*.m4
+   rm -rvf "$PROJECT_UNDERSCORES/templates/"*.m4
+   git rm "flask_module"
    #rm -rf "$PROJECT_DIR/.git"
    #git init "$PROJECT_DIR"
    #git remote add origin "https://github.com/${GIT_USER}/${PROJECT_DASHES}"
    git rm "$0"
 fi
 
-git add $TEMPLATE_FILES .gitignore LICENSE pyproject.toml setup.py requirements.txt .vscode/settings.json
+git add $TEMPLATE_FILES \
+   .gitignore \
+   LICENSE \
+   pyproject.toml \
+   setup.py \
+   requirements.txt \
+   .vscode/settings.json
 if [ $DO_FLASK -eq 1 ]; then
    git add "$PROJECT_UNDERSCORES/static/.keep"
    git add "instance/.keep"
