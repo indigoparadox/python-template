@@ -220,6 +220,7 @@ if [ $DO_CLEAN = 1 ]; then
    rm -rvf "$PROJECT_UNDERSCORES/"*.m4
    rm -rvf "$PROJECT_UNDERSCORES/templates/"*.m4
    rm -rvf "$PROJECT_UNDERSCORES/static/"*.m4
+   rm -rvf "$PROJECT_UNDERSCORES/static/.keep.m4"
    git rm "flask_module"
    #rm -rf "$PROJECT_DIR/.git"
    #git init "$PROJECT_DIR"
