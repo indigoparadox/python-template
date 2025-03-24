@@ -242,7 +242,7 @@ fi
 
 git commit -a -m "Initial revision based on template."
 
-git remote remove origin
+#git remote remove origin
 
 if [ $DO_NPM -eq 1 ]; then
    echo "Use npm install and grunt to prepare local static files."
