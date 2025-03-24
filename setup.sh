@@ -13,7 +13,7 @@ DO_FLASK=0
 DO_BOOTSTRAP=0
 DO_JQUERY=0
 DO_NPM=0
-DO_CLEAN=0
+DO_CLEAN=1
 DO_WTFORMS=0
 DO_DOCKER=0
 DO_SQLALCHEMY=0
@@ -51,8 +51,8 @@ while (( "$#" )); do
          PROJECT_LICENSE="lgpl3"
          ;;
 
-      "clean")
-         DO_CLEAN=1
+      "noclean")
+         DO_CLEAN=0
          ;;
 
       *)
@@ -219,6 +219,7 @@ if [ $DO_CLEAN = 1 ]; then
    git rm "tests/"*.m4
    rm -rvf "$PROJECT_UNDERSCORES/"*.m4
    rm -rvf "$PROJECT_UNDERSCORES/templates/"*.m4
+   rm -rvf "$PROJECT_UNDERSCORES/static/"*.m4
    git rm "flask_module"
    #rm -rf "$PROJECT_DIR/.git"
    #git init "$PROJECT_DIR"
