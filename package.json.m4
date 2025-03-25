@@ -2,8 +2,7 @@ dnl
 divert(-1)
 changequote(`[', `]')
 define([jquery_deps], [      "jquery": "^3.4.1"dnl])
-define([bootstrap_deps], [      "bootstrap": "^4.3.1",
-      "popper.js": "1.14.7"dnl
+define([bootstrap_deps], [      "bootstrap": "^5.3.3"dnl
 ])
 changequote([`], ['])
 define(`is_defined', `ifelse($1()$1, `$1()$1', ``'', ``enabled'')')

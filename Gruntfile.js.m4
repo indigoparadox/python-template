@@ -3,8 +3,7 @@ divert(-1)
 changequote(`^', `$')
 define(^files_jquery$, ^'node_modules/jquery/dist/jquery.min.js',$)
 define(^files_bootstrap$, ^'node_modules/bootstrap/dist/js/bootstrap.min.js',
-                  'node_modules/bootstrap/dist/css/bootstrap.min.css',
-                  'node_modules/popper.js/dist/umd/popper.min.js',$)
+                  'node_modules/bootstrap/dist/css/bootstrap.min.css',$)
 changequote(^`$, ^'$)
 divert(0)
 dnl

@@ -15,7 +15,7 @@ changequote(^`$, ^'$)dnl
 <!-- <link rel="stylesheet" href="{{ url_for( 'static', filename='style.css' ) }}" /> -->
 {% block scripts %}{% endblock %}
 </head>
-<body class="h-100 bg-dark">
+<body class="">
 
 <div class="container">
 
